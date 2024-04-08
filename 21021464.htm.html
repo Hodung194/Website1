@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Lab</title>
+		
+		<link rel="StyleSheet" type="text/css" href="./21021464_files/style.css">
+</head><body>
+	<h3>Ví dụ đơn giản: Chỉ có một bảng với số cột biết trước</h3>
+	<p>
+		Kích chuột vào các ô tiêu đề "Mã sản phẩm" hoặc "Tên sản phẩm" trong bảng sau để sắp xếp dữ liệu.
+	</p>
+
+	<table class="sortable" id="data_table"><thead>
+		<tr>
+			<th>TT</th>
+			<th class="sortcol asc" title="Kích vào đây để sắp xếp theo mã sản phẩm">Mã sản phẩm<span class="arrow"></span></th>
+			<th class="sortcol" title="Kích vào đây để sắp xếp theo tên sản phẩm">Tên sản phẩm<span class="arrow"></span></th>
+		</tr>
+	</thead><tbody>
+			<tr>
+				<td>1</td>
+				<td>SP001</td>
+				<td>Máy giặt</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>SP002</td>
+				<td>Bếp đa năng</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>SP003</td>
+				<td>Lò sưởi</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>SP004</td>
+				<td>Điều hòa nhiệt độ</td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>SP005</td>
+				<td>Tủ lạnh</td>
+			</tr>
+	</tbody></table>
+	<script>
+		var col = 0; // cột được sắp xếp
+	var dir = ""; // chiều sắp xếp
+	var tbl = document.getElementById("data_table"); //bảng được sắp xếp
+
+// xử lý sự kiện kích chuột trên ô tiêu đề cột "Mã sản phẩm"
+	tbl.rows[0].cells[1].onclick = function() {
+		// Bỏ biểu thị cột đang được sắp xếp (nếu có)
+		if (col == 1) tbl.rows[0].cells[1].classList.remove(dir);
+		else if (col == 2) tbl.rows[0].cells[2].classList.remove(dir);
+		// Cột sẽ được sắp xếp là cột 1
+		if (col == 1) {
+			// cột 1 đã được sắp xếp, đảo chiều
+			dir = (dir == "asc" ? "desc" : "asc");
+		} else {
+			col = 1;
+			dir = "asc";
+		}
+		//thêm biểu thị cột được sắp xếp
+		this.classList.add(dir);
+		//sắp xếp
+		tblSort();
+	};
+
+	// xử lý sự kiện kích chuột trên ô tiêu đề cột "Tên sản phẩm"
+	tbl.rows[0].cells[2].onclick = function() {
+		//bỏ biểu thị cột đang được sắp xếp (nếu có)
+		if (col == 1) tbl.rows[0].cells[1].classList.remove(dir);
+		else if (col == 2) tbl.rows[0].cells[2].classList.remove(dir);
+		// cột sẽ được sắp xếp là cột 2
+		if (col == 2) {
+			// cột 2 đã được sắp xếp, đảo chiều
+			dir = (dir == "asc" ? "desc" : "asc");
+		} else {
+			col = 2;
+			dir = "asc";
+		}
+		//thêm biểu thị cột được sắp xếp
+		this.classList.add(dir);
+		//sắp xếp
+		tblSort();
+	};
+
+
+	function tblSort() {
+		var rows = tbl.rows;
+		for (var i = 1; i < rows.length; i++)
+			for (var j = i+1; j < rows.length; j++) 
+				if ((dir == "asc" && rows[i].cells[col].innerHTML.toLowerCase() > 
+						rows[j].cells[col].innerHTML.toLowerCase()) || 
+					(dir == "desc" && rows[i].cells[col].innerHTML.toLowerCase() < 
+						rows[j].cells[col].innerHTML.toLowerCase())
+					)
+				{
+					//hoán vị	
+					tmp = rows[i].cells[1].innerHTML;
+					rows[i].cells[1].innerHTML = rows[j].cells[1].innerHTML;
+					rows[j].cells[1].innerHTML = tmp;
+
+					tmp = rows[i].cells[2].innerHTML;
+					rows[i].cells[2].innerHTML = rows[j].cells[2].innerHTML;
+					rows[j].cells[2].innerHTML = tmp;
+				}
+};
+	</script>
+
+</body></html>
